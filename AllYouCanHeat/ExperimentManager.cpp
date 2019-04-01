@@ -1,3 +1,7 @@
+/*
+ * @author Collin Hague
+ * Manager class for controlling the components of the experiment
+ */
 #include "HeatPad.h"
 #include "LCD.h"
 #include "LoadCell.h"
@@ -11,12 +15,22 @@ class Manager {
   LCD lcd;
   LoadCell loadcell;
   Motor motor;
-  Thermistor thermistor0;
-  Thermistor thermistor1;
+  Thermistor[2] thermistor;
 
-  void setup(void) {
+  void setTemp( double temp ) {
   }
-  void loop(void) {
+  double getTemp() {
+    
+  }
+  double findSpecificHeat() {
+    
+  }
+  double getSpecificHeat() {
+    
+  }
+  void setup() {
+  }
+  void loop() {
   }
 }
 

@@ -6,8 +6,12 @@
  namespace heat {
   class Manager {
     public:
-      void setup(void);
-      void loop(void);
+      void setTemp( double );
+      double getTemp();
+      void findSpecificHeat();
+      double getSpecificHeat();
+      void setup();
+      void loop();
   }
  }
 
