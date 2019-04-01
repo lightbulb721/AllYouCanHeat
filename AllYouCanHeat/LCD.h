@@ -1,3 +1,5 @@
+#ifndef LCD_H
+#define LCD_H
 namespace heat {
   class LCD {
     void up();
@@ -5,8 +7,9 @@ namespace heat {
     void left();
     void right();
     void select();
-    void update();
+    void loop();
     void setup();
-  }
+  };
 }
+#endif
 

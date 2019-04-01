@@ -7,30 +7,7 @@
 #include "LoadCell.h"
 #include "Motor.h"
 #include "Thermistor.h"
-using namespace Heat;
+using namespace heat;
 
-class Manager {
-  int state = 0;
-  HeatPad heatPad;
-  LCD lcd;
-  LoadCell loadcell;
-  Motor motor;
-  Thermistor[2] thermistor;
-
-  void setTemp( double temp ) {
-  }
-  double getTemp() {
-    
-  }
-  double findSpecificHeat() {
-    
-  }
-  double getSpecificHeat() {
-    
-  }
-  void setup() {
-  }
-  void loop() {
-  }
-}
+//Manager::
 
