@@ -1,9 +1,10 @@
 /*********************
-
-Example code for the Adafruit RGB Character LCD Shield and Library
-
 This code is for the UI
-
+LCD uses:
+5v
+GND
+20SDA
+21SCL
 **********************/
 
 // include the library code:
@@ -43,11 +44,6 @@ void loop() {
         if (buttons & BUTTON_RIGHT) {
         lcd.print("CP    HEAT   OFF");
         lcd.setCursor(8,1);
-        //selects HEAT
-        if (buttons & BUTTON_SELECT) {
-        lcd.print("DETERMINING CP SELECT TO CANCEL");
-        lcd.setCursor(8,1);
-        }
         }
         //cursors CP
         if (buttons & BUTTON_LEFT) {
