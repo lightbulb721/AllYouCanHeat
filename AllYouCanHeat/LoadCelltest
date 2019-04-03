@@ -1,3 +1,11 @@
+/*********************
+This code is for the Load Cell
+Load Cell uses:
+5v
+GND
+3 PWM
+2 PWM
+**********************/
 /*
  Example using the SparkFun HX711 breakout board with a scale
  By: Nathan Seidle
