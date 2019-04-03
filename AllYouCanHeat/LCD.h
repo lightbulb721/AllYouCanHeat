@@ -15,6 +15,7 @@ namespace heat {
       void left();
       void right();
       void select();
+      void displayInfo( double *list, int len, int state );
       void loop();
       void setup();
       LCD( Screen screens[], int screenslength );

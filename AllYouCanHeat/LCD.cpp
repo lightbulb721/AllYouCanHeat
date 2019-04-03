@@ -64,6 +64,10 @@ void LCD::left() {
 void LCD::select() {
   this->screens[this->currentScreen].select();
 }
+void LCD::displayInfo( double *list, int len, int state ) {
+  this->currentScreen = state;
+  this->screens[ state ].displayInfo( float *list, int len );
+}
 //// The shield uses the I2C SCL and SDA pins. On classic Arduinos
 //// this is Analog 4 and 5 so you can't use those for analogRead() anymore
 //// However, you can connect other I2C sensors to the I2C bus and share

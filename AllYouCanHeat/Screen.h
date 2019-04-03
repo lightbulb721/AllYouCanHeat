@@ -5,13 +5,14 @@ namespace heat {
 
  class Screen {
   public:
-  void up();
-  void down();
-  void left();
-  void right();
-  int select();
-  void setup( Adafruit_RGBLCDShield sheild );
-  void loop( Adafruit_RGBLCDShield sheild );
+  void up(){return};
+  void down(){return};
+  void left(){return};
+  void right(){return};
+  int select(){return -1};
+  void displayInfo( int *list, int len ){return};
+  void setup( Adafruit_RGBLCDShield sheild ){return};
+  void loop( Adafruit_RGBLCDShield sheild ){return};
  };
 }
 #endif
