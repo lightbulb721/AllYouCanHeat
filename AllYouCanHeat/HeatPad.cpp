@@ -23,4 +23,3 @@ void HeatPad::loop() {
 HeatPad::HeatPad( int pin ) {
   this->pin = pin;
 }
-

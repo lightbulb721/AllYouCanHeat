@@ -18,10 +18,11 @@ When a button is pressed, the backlight changes color.
 
 using namespace heat;
 
-LCD::LCD( Screen screens[], int screenslength ) {
+LCD::LCD( Screen* screens, int screenslength, int heatPadPin, int dout, int clk, double calibrationFactor, int motorPin, int thermistorPin0, int thermistorPin1, double kp, double kd, double ki  ) {
   this->screens = screens;
   this->screenslength = screenslength;
   this->sheild = Adafruit_RGBLCDShield();
+  this->manager = Manager( heatPadPin, dout, clk, calibrationFactor, motorPin, thermistorPin0, thermistorPin1, kp, kd, ki );  
 }
 
 void LCD::setup() {
@@ -31,8 +32,10 @@ void LCD::setup() {
   for( int i = 0; i < this->screenslength; i++ ) {
     this->screens[ i ].setup( this->sheild );
   }
+  manager.setup();
 }
 void LCD::loop() {
+  manager.loop();
   uint8_t buttons = this->sheild.readButtons();
   if ( buttons ) {
     if ( buttons & BUTTON_UP ) {
@@ -48,6 +51,28 @@ void LCD::loop() {
     }
   }
   this->screens[this->currentScreen].loop( this->sheild );
+  switch( this->currentScreen ) {
+    case 1:
+      this->manager.findSpecificHeat();
+      this->currentScreen = 2;
+    case 2: 
+    {
+      double *p = new double;
+      *p = this->manager.getSpecificHeat();
+      this->screens[2].displayInfo( p, 1 );
+      delete p;
+      break;
+    }
+    case 4:
+    {
+      double *list = new double(2);
+      list[0] = this->manager.getFinalTemp();
+      list[1] = this->manager.getTemp();
+      this->screens[4].displayInfo( list, 2 );
+      delete list;
+      break;
+    }
+  }
 }
 void LCD::up() {
   this->screens[this->currentScreen].up();
@@ -62,11 +87,17 @@ void LCD::left() {
   this->screens[this->currentScreen].left();
 }
 void LCD::select() {
-  this->screens[this->currentScreen].select();
+  int state = this->screens[this->currentScreen].select();
+  if ( state > 5 ) {
+    this->currentScreen = 4;
+    this->manager.setTemp( (double)state );
+    return;
+  }
+  this->currentScreen = state;
 }
 void LCD::displayInfo( double *list, int len, int state ) {
   this->currentScreen = state;
-  this->screens[ state ].displayInfo( float *list, int len );
+  this->screens[ state ].displayInfo( list, len );
 }
 //// The shield uses the I2C SCL and SDA pins. On classic Arduinos
 //// this is Analog 4 and 5 so you can't use those for analogRead() anymore

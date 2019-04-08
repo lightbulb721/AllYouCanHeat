@@ -1,4 +1,4 @@
-#ifndef HEAD_PAD_H
+#ifndef HEAT_PAD_H
 #define HEAT_PAD_H
 namespace heat{
   class HeatPad {
@@ -14,4 +14,3 @@ namespace heat{
   };
 }
 #endif
-

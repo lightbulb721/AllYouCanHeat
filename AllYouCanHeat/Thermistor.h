@@ -9,10 +9,10 @@ namespace heat {
       double R;
     public:
       Thermistor( int pin );
+      Thermistor();
       double getTemperature();
       void setup();
       void loop();
   };
 }
 #endif
-

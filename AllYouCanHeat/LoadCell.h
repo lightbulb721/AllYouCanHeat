@@ -8,7 +8,7 @@ namespace heat {
       int dout;
       int clk;
       HX711 scale;
-      double calibration_factor;
+      double calibrationFactor;
     public:
       double getMass();
       void setup();
@@ -17,4 +17,3 @@ namespace heat {
   };
 }
 #endif
-

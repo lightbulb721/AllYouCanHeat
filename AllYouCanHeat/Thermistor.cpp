@@ -28,3 +28,6 @@ Thermistor::Thermistor( int pin ) {
   this->pin = pin;
 }
 
+Thermistor::Thermistor() {
+  this->pin = 0;
+}
