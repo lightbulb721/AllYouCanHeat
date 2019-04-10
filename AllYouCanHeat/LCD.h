@@ -6,9 +6,10 @@
 namespace heat {
   class LCD {
     private:
-      Screen *screens;
+      Screen **screens;
       int screenslength;
       int currentScreen = 0;
+      uint8_t lastButton = -1;
       Adafruit_RGBLCDShield sheild;
       Manager manager;
     public:
@@ -20,7 +21,7 @@ namespace heat {
       void displayInfo( double *list, int len, int state );
       void loop();
       void setup();
-      LCD( Screen* screens, int screenslength, int heatPadPin, int dout, int clk, double calibrationFactor, int motorPin, int thermistorPin0, int thermistorPin1, double kp, double kd, double ki  );
+      LCD( Screen** screens, int screenslength, int heatPadPin, int dout, int clk, double calibrationFactor, int motorPin, uint8_t thermistorPin0, uint8_t thermistorPin1, double kp, double kd, double ki  );
   };
 }
 #endif

@@ -1,6 +1,7 @@
 #include "Thermistor.h"
 #include "arduino.h"
 #define R0 10e3
+#define DEBUG
 using namespace heat;
 
 /*
@@ -16,8 +17,6 @@ double Thermistor::getTemperature() {
 }
 
 void Thermistor::setup() {
-  //Serial.begin(9600);
-  analogReference( EXTERNAL );
 }
 void Thermistor::loop() {
   double voltage = analogRead( this->pin );

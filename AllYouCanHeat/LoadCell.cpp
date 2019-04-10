@@ -1,5 +1,6 @@
 #include "LoadCell.h"
 #include "HX711.h"
+#define DEBUG
 using namespace heat;
 LoadCell::LoadCell( int dout, int clk, double calibrationFactor ) {
   this->dout = dout;

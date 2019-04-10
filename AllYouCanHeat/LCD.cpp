@@ -12,13 +12,16 @@ When a button is pressed, the backlight changes color.
 #include <Adafruit_RGBLCDShield.h>
 #include <utility/Adafruit_MCP23017.h>
 #include "LCD.h"
+#include "Arduino.h"
+
+#define DEBUG
 
 #define ON 0x7
 #define OFF 0x0
 
 using namespace heat;
 
-LCD::LCD( Screen* screens, int screenslength, int heatPadPin, int dout, int clk, double calibrationFactor, int motorPin, int thermistorPin0, int thermistorPin1, double kp, double kd, double ki  ) {
+LCD::LCD( Screen **screens, int screenslength, int heatPadPin, int dout, int clk, double calibrationFactor, int motorPin, uint8_t thermistorPin0, uint8_t thermistorPin1, double kp, double kd, double ki  ) {
   this->screens = screens;
   this->screenslength = screenslength;
   this->sheild = Adafruit_RGBLCDShield();
@@ -30,14 +33,15 @@ void LCD::setup() {
   this->sheild.print( "All You Can Heat" );
   this->sheild.setBacklight( ON );
   for( int i = 0; i < this->screenslength; i++ ) {
-    this->screens[ i ].setup( this->sheild );
+    this->screens[ i ]->setup( this->sheild );
   }
   manager.setup();
 }
 void LCD::loop() {
   manager.loop();
   uint8_t buttons = this->sheild.readButtons();
-  if ( buttons ) {
+
+  if ( buttons != this->lastButton ) {
     if ( buttons & BUTTON_UP ) {
       this->up();
     } else if ( buttons & BUTTON_DOWN ) {
@@ -50,7 +54,9 @@ void LCD::loop() {
       this->select();
     }
   }
-  this->screens[this->currentScreen].loop( this->sheild );
+  this->lastButton = buttons;
+  this->sheild.setCursor(0,0);
+  this->screens[this->currentScreen]->loop( this->sheild );
   switch( this->currentScreen ) {
     case 1:
       this->manager.findSpecificHeat();
@@ -59,7 +65,7 @@ void LCD::loop() {
     {
       double *p = new double;
       *p = this->manager.getSpecificHeat();
-      this->screens[2].displayInfo( p, 1 );
+      this->screens[2]->displayInfo( p, 1 );
       delete p;
       break;
     }
@@ -68,26 +74,27 @@ void LCD::loop() {
       double *list = new double(2);
       list[0] = this->manager.getFinalTemp();
       list[1] = this->manager.getTemp();
-      this->screens[4].displayInfo( list, 2 );
+      this->screens[4]->displayInfo( list, 2 );
       delete list;
       break;
     }
   }
 }
 void LCD::up() {
-  this->screens[this->currentScreen].up();
+  this->screens[this->currentScreen]->up();
 }
 void LCD::down() {
-  this->screens[this->currentScreen].down();
+  this->screens[this->currentScreen]->down();
 }
 void LCD::right() {
-  this->screens[this->currentScreen].right();
+  this->screens[this->currentScreen]->right();
 }
 void LCD::left() {
-  this->screens[this->currentScreen].left();
+  this->screens[this->currentScreen]->left();
 }
 void LCD::select() {
-  int state = this->screens[this->currentScreen].select();
+  int state = this->screens[this->currentScreen]->select();
+  this->sheild.clear();
   if ( state > 5 ) {
     this->currentScreen = 4;
     this->manager.setTemp( (double)state );
@@ -97,7 +104,7 @@ void LCD::select() {
 }
 void LCD::displayInfo( double *list, int len, int state ) {
   this->currentScreen = state;
-  this->screens[ state ].displayInfo( list, len );
+  this->screens[ state ]->displayInfo( list, len );
 }
 //// The shield uses the I2C SCL and SDA pins. On classic Arduinos
 //// this is Analog 4 and 5 so you can't use those for analogRead() anymore

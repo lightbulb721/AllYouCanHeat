@@ -1,30 +1,39 @@
 #include "LCD.h"
 #include "Screen.h"
-using namespace heat;
+#include "Arduino.h"
 
+//debug flas
+#define DEBUG
 
-#define HEATPAD 0
-#define DOUT 0
-#define CLK 0
-#define CALIBRATIONFACTOR 0
-#define MOTOR 0
-#define THERMISTOR0 0
-#define THERMISTOR1 0
+#define HEATPAD 12
+#define DOUT 3
+#define CLK 2
+#define CALIBRATIONFACTOR 1.0
+#define MOTOR 13
+#define THERMISTOR0 A0
+#define THERMISTOR1 A1
 #define KP 1
 #define KD 1 
 #define KI 1
 #define NUMBEROFSCREENS 5
 
-Screen screens[5] = { SelectionScreen(), DetermineCPScreen(), ShowCPScreen(), SetTemperatureScreen(), ReportTemperatureScreen() };
+heat::SelectionScreen ss = heat::SelectionScreen();
+heat::DetermineCPScreen dcps = heat::DetermineCPScreen();
+heat::ShowCPScreen scps = heat::ShowCPScreen();
+heat::SetTemperatureScreen sts = heat::SetTemperatureScreen();
+heat::ReportTemperatureScreen rts = heat::ReportTemperatureScreen();
+heat::Screen *screens[5] = { &ss, &dcps, &scps, &sts, &rts };
 
 
-LCD lcdDisplay = LCD( screens, NUMBEROFSCREENS, HEATPAD, DOUT, CLK, CALIBRATIONFACTOR, MOTOR,THERMISTOR0, THERMISTOR1, KP, KD, KI );
+heat::LCD lcdDisplay = heat::LCD( screens, NUMBEROFSCREENS, HEATPAD, DOUT, CLK, CALIBRATIONFACTOR, MOTOR,THERMISTOR0, THERMISTOR1, KP, KD, KI );
 
-void setup() {
-  lcdDisplay.setup();
-
-}
-
-void loop() {
-  lcdDisplay.loop();
-}
+//void setup() {
+//  Serial.begin(9600);
+//  lcdDisplay.setup();
+//
+//}
+//
+//void loop() {
+//  delay(100);
+//  lcdDisplay.loop();
+//}

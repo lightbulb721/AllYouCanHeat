@@ -3,6 +3,9 @@
  * Manager class for controlling the components of the experiment
  */
 #include "ExperimentManager.h"
+
+#define DEBUG
+
 using namespace heat;
 Manager::Manager() {
   this->heatPad = new HeatPad( 0 );

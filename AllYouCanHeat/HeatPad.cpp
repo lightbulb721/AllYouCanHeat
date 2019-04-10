@@ -4,6 +4,9 @@
  * @author Collin Hague
  * controls the heat pad
  */
+
+#define DEBUG
+
 using namespace heat;
 
 void HeatPad::setVoltage( double voltage ) {
