@@ -61,6 +61,7 @@ void LCD::loop() {
     case 1:
       this->manager.findSpecificHeat();
       this->currentScreen = 2;
+      this->sheild.clear();
     case 2: 
     {
       double *p = new double;
@@ -99,6 +100,9 @@ void LCD::select() {
     this->currentScreen = 4;
     this->manager.setTemp( (double)state );
     return;
+  }
+  if ( state == 0 ) {
+    this->manager.stopExperiment();
   }
   this->currentScreen = state;
 }

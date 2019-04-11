@@ -20,9 +20,15 @@ double HeatPad::getVoltage() {
 void HeatPad::setup() {
 }
 void HeatPad::loop() {
-  analogWrite( this->pin, ( this->voltage / 12 ) * 255 );
+  Serial.print( "analogWrite( " );
+  Serial.print( this->pin );
+  Serial.print( ", " );
+  Serial.print( (this->voltage / 12) * 255 );
+  Serial.println( " )" );
+  analogWrite( 9, ( this->voltage / 12 ) * 255 );
 }
 
 HeatPad::HeatPad( int pin ) {
   this->pin = pin;
+  this->voltage = 0;
 }

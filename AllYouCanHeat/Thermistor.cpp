@@ -13,7 +13,7 @@ using namespace heat;
 double Thermistor::getTemperature() {
   double B = 3950;
   double invT = 1 / 298.15 + ( 1 / B ) * log( this->R / R0 );
-  return 1 / invT;
+  return (1 / invT) - 273.15;
 }
 
 void Thermistor::setup() {

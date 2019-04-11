@@ -15,8 +15,8 @@
       int state;
       double specificHeat;
       double previousError, intError;
-      double readings[10];
       double kp, kd, ki;
+      double readings[10];
       HeatPad *heatPad;
       LoadCell *loadcell;
       Motor *motor;

@@ -49,7 +49,7 @@ int SelectionScreen::select() {
     case 1:
       return 3;
     case 2:
-      return 5;
+      return 0;
   }
   return 0;
 }
@@ -101,7 +101,7 @@ void ShowCPScreen::left() {return;}
 void ShowCPScreen::right() {return;}
 void ShowCPScreen::setup( Adafruit_RGBLCDShield &shield ) {return;}
 void ShowCPScreen::loop( Adafruit_RGBLCDShield &shield ) {
-  shield.printf("CP : %.2f", this->finalTemp );
+  shield.printf("CP : %d", int(this->finalTemp) );
   shield.setCursor( 0, 1 );
   shield.print( "KJ / KG * K" );
   shield.noBlink();
@@ -198,9 +198,9 @@ void ReportTemperatureScreen::left() {return;}
 void ReportTemperatureScreen::right() {return;}
 void ReportTemperatureScreen::setup( Adafruit_RGBLCDShield &shield ) {return;}
 void ReportTemperatureScreen::loop( Adafruit_RGBLCDShield &shield ) {
-  shield.printf( "Current: %.2f", this->currentTemp );
+  shield.printf( "Current: %d", int(this->currentTemp) );
   shield.setCursor( 0, 1 );
-  shield.printf( "Final: %.2f", this->finalTemp );
+  shield.printf( "Final: %d", int(this->finalTemp) );
   shield.noBlink();
 }
 void ReportTemperatureScreen::displayInfo( double *list, int len ) {

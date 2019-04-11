@@ -16,5 +16,6 @@ void Motor::loop() {
 
 Motor::Motor( int pin ) {
   this->pin = pin;
+  this->voltage=0;
 }
 
