@@ -61,6 +61,9 @@ void Manager::stopExperiment() {
   state = 0;
 }
 void Manager::loop() {
+  if ( millis() - this->t0 > 5000 ) {
+    this->loadcell.tare();
+  }
   switch ( this->state ) {
     /*
      * State 0 is the no nothing state turns everything off
@@ -89,6 +92,7 @@ void Manager::loop() {
         voltageOut = voltageOut < 0 ? 0 :voltageOut;
         this->previousError = error;
         this->heatPad->setVoltage( voltageOut );
+        Serial.println( voltageOut );
       }
       break;
       /*
@@ -146,4 +150,5 @@ void Manager::setup() {
   this->motor->setup();
   this->thermistor[0].setup();
   this->thermistor[1].setup();
+  this->t0 = millis();
 }

@@ -21,3 +21,8 @@ void LoadCell::loop() {
 double LoadCell::getMass() {
   return mass;
 }
+
+void LoadCell::tare() {
+ this->scale.tare();
+}
+

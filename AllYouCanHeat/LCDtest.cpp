@@ -1,16 +1,17 @@
-///*********************
-//This code is for the UI
-//LCD uses:
-//5v
-//GND
-//20SDA
-//21SCL
-//**********************/
-//
+/////*********************
+////This code is for the UI
+////LCD uses:
+////5v
+////GND
+////20SDA
+////21SCL
+////**********************/
+////
 //// include the library code:
 //#include <Wire.h>
 //#include <Adafruit_RGBLCDShield.h>
 //#include <utility/Adafruit_MCP23017.h>
+//#include "Arduino.h"
 //
 //
 //// The shield uses the I2C SCL and SDA pins. On classic Arduinos

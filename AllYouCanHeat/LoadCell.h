@@ -13,6 +13,7 @@ namespace heat {
       double getMass();
       void setup();
       void loop();
+      void tare();
       LoadCell( int dout, int clk, double calibration_factor );
   };
 }

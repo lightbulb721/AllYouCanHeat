@@ -18,6 +18,7 @@ double HeatPad::getVoltage() {
 }
 
 void HeatPad::setup() {
+  pinMode( 9, OUTPUT );
 }
 void HeatPad::loop() {
   Serial.print( "analogWrite( " );

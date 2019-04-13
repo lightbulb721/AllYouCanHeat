@@ -12,15 +12,23 @@ using namespace heat;
  */
 double Thermistor::getTemperature() {
   double B = 3950;
-  double invT = 1 / 298.15 + ( 1 / B ) * log( this->R / R0 );
-  return (1 / invT) - 273.15;
+  double ans;
+  ans = this->R / R0;
+  ans = log( ans );
+  ans /= B;
+  ans += 1 / ( 298.15 );
+  ans = 1 / ans;
+  ans -= 273.15;  
+  return ans;
 }
 
 void Thermistor::setup() {
 }
 void Thermistor::loop() {
   double voltage = analogRead( this->pin );
-  this->R = R0 * voltage /( 1023 - voltage );
+  voltage = 1023 / voltage - 1;
+  this->R = R0 / voltage;
+  Serial.println( this->R );
 }
 
 Thermistor::Thermistor( int pin ) {

@@ -205,7 +205,7 @@ void ReportTemperatureScreen::loop( Adafruit_RGBLCDShield &shield ) {
 }
 void ReportTemperatureScreen::displayInfo( double *list, int len ) {
   if ( len > 1 ) {
-    currentTemp = list[0];
-    finalTemp = list[1];
+    currentTemp = list[1];
+    finalTemp = list[0];
   }
 }

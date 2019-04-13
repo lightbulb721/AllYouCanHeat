@@ -15,7 +15,7 @@
 #define HEATPAD 9
 #define DOUT 3
 #define CLK 2
-#define CALIBRATIONFACTOR 7050.0
+#define CALIBRATIONFACTOR 391200
 #define MOTOR 13
 #define THERMISTOR0 A0
 #define THERMISTOR1 A1
@@ -36,6 +36,7 @@ heat::LCD lcdDisplay = heat::LCD( screens, NUMBEROFSCREENS, HEATPAD, DOUT, CLK, 
 
 void setup() {
   Serial.begin(9600);
+  analogReference(EXTERNAL);
   lcdDisplay.setup();
 
 }
@@ -45,7 +46,7 @@ void loop() {
   lcdDisplay.loop();
 }
 
-//thermistor test
+////thermistor test
 //heat::Thermistor t0 = heat::Thermistor( THERMISTOR0 );
 //void setup() {
 //  Serial.begin(9600);
@@ -58,12 +59,12 @@ void loop() {
 //}
 
 ////Motor test
-//heat::Motor m = heat::Motor(HEATPAD);
+//heat::Motor m = heat::Motor(MOTOR);
 //
 //void setup() {
 //  Serial.begin( 9600 );
 //  m.setup();
-//  m.setVoltage(0);
+//  m.setVoltage(12);
 //}
 //void loop() {
 //  Serial.println( "12V" );

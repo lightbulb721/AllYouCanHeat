@@ -9,6 +9,7 @@ double Motor::getVoltage() {
   return this->voltage;
 }
 void Motor::setup() {  
+  pinMode( this->pin, OUTPUT );
 }
 void Motor::loop() {
   analogWrite( this->pin, ( this->voltage / 12 ) * 255 );

@@ -22,6 +22,7 @@
       Motor *motor;
       Thermistor *thermistor;
       double finalTemp;
+      double t0 = 0;
     public:
       void setTemp( double );
       double getFinalTemp();
