@@ -28,7 +28,6 @@ void Thermistor::loop() {
   double voltage = analogRead( this->pin );
   voltage = 1023 / voltage - 1;
   this->R = R0 / voltage;
-  Serial.println( this->R );
 }
 
 Thermistor::Thermistor( int pin ) {

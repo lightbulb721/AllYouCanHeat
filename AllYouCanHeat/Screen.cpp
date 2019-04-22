@@ -101,9 +101,9 @@ void ShowCPScreen::left() {return;}
 void ShowCPScreen::right() {return;}
 void ShowCPScreen::setup( Adafruit_RGBLCDShield &shield ) {return;}
 void ShowCPScreen::loop( Adafruit_RGBLCDShield &shield ) {
-  shield.printf("CP : %d", int(this->finalTemp) );
+  shield.printf("CP : %d          ", int(this->finalTemp) );
   shield.setCursor( 0, 1 );
-  shield.print( "KJ / KG * K" );
+  shield.print( "J / KG * K" );
   shield.noBlink();
 }
 void ShowCPScreen::displayInfo( double *list, int len ) {

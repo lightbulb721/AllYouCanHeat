@@ -7,6 +7,38 @@
 #define DEBUG
 
 using namespace heat;
+
+ void simpLinReg(float* x, float* y, float* lrCoef, int n){
+  // pass x and y arrays (pointers), lrCoef pointer, and n.  The lrCoef array is comprised of the slope=lrCoef[0] and intercept=lrCoef[1].  n is length of the x and y arrays.
+  // http://en.wikipedia.org/wiki/Simple_linear_regression
+
+  // initialize variables
+  float xbar=0;
+  float ybar=0;
+  float xybar=0;
+  float xsqbar=0;
+  
+  // calculations required for linear regression
+  for (int i=0; i<n; i++){
+    xbar=xbar+x[i];
+    ybar=ybar+y[i];
+    xybar=xybar+x[i]*y[i];
+    xsqbar=xsqbar+x[i]*x[i];
+  }
+  xbar=xbar/n;
+  ybar=ybar/n;
+  xybar=xybar/n;
+  xsqbar=xsqbar/n;
+  
+  // simple linear regression algorithm
+  lrCoef[0]=(xybar-xbar*ybar)/(xsqbar-xbar*xbar);
+  lrCoef[1]=ybar-lrCoef[0]*xbar;
+}
+
+
+
+
+
 Manager::Manager() {
   this->heatPad = new HeatPad( 0 );
   this->loadcell = new LoadCell( 0, 0, 0 );
@@ -15,9 +47,6 @@ Manager::Manager() {
   this->thermistor[0] = Thermistor( 0 );
   this->thermistor[1] = Thermistor( 0 );
   this->state = 0;
-  for ( int i = 0; i < 10; i++ ) {
-    this->readings[i] = 25;
-  }
 }
 Manager::Manager( int heatPadPin, int dout, int clk, double calibrationFactor, int motorPin, int thermistorPin0, int thermistorPin1, double kp, double kd, double ki ) {
   this->heatPad = new HeatPad( heatPadPin );
@@ -61,8 +90,8 @@ void Manager::stopExperiment() {
   state = 0;
 }
 void Manager::loop() {
-  if ( millis() - this->t0 > 5000 ) {
-    this->loadcell.tare();
+  if ( millis() - this->t0 < 5000 ) {
+    this->loadcell->tare();
   }
   switch ( this->state ) {
     /*
@@ -73,6 +102,11 @@ void Manager::loop() {
       this->heatPad->setVoltage( 0 );
       this->intError = 0;
       this->previousError = 0;
+      this->readingsCount = 0;
+      for ( int i = 0; i < 60; i++ ) {
+        this->readings[i] = 25;
+        this->times[i] = float(i);
+      }
       break;
       /*
        * case 2 is the hold temperature state has the pid controller
@@ -106,18 +140,39 @@ void Manager::loop() {
     case 1:
       {
         double dt = .1;
-        double resistace = 1;
+        double resistace = 4;
         this->motor->setVoltage( 12 );
         this->heatPad->setVoltage( 12 );
-        // stores last 10 readings
-        for (int i = 9; i > 0; i-- ) {
-          this->readings[ i - 1 ] = this->readings[ i ];
+        if ( this->readingsCount >= 10 ) {
+          for (int i = 0; i <59; i++ ) {
+            this->readings[i] = this->readings[ i + 1 ];
+          }
+          this->readings[59] = this->getTemp();
+          this->readingsCount = 0;
+          for ( int i = 0; i < 60; i++ ) {
+            Serial.print( this->readings[i] );
+            Serial.print( " " );
+          }
+          Serial.print("\n");
+          for ( int i = 0; i < 60; i++ ) {
+            this->times[i] = i;
+            Serial.print( this->times[i] );
+            Serial.print( " " );
+          }
+          Serial.print("\n");
+        } else {
+          this->readingsCount++;
         }
-        this->readings[9] = this->getTemp();
         //add heat from motor
-        double heat = 12 * 12 / resistace * 10 * dt; //+ motor energy;
-        this->specificHeat = heat / ( this->loadcell->getMass() * ( this->readings[0] - this->readings[9] ) );
+        double heat = 12 * 12 / resistace * 2; //+ motor energy;
+        float coef[2] = {0,0};
+        simpLinReg( this->times, this->readings, coef, 60 );
+        Serial.print( coef[0] );
+        Serial.print( " " );
+        Serial.println( coef[1] );
+        this->specificHeat = heat / ( this->loadcell->getMass() * coef[0] );
         //shuts off when temperature is greater than 50C
+        Serial.println( this->specificHeat);
         if ( this->getTemp() > 50 ){
           state = 0;
         }

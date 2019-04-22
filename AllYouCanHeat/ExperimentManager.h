@@ -16,13 +16,15 @@
       double specificHeat;
       double previousError, intError;
       double kp, kd, ki;
-      double readings[10];
+      float readings[60];
+      float readingsCount;
       HeatPad *heatPad;
       LoadCell *loadcell;
       Motor *motor;
       Thermistor *thermistor;
       double finalTemp;
       double t0 = 0;
+      float times[60];
     public:
       void setTemp( double );
       double getFinalTemp();
