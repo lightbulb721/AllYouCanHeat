@@ -1,13 +1,13 @@
-/////*********************
-////This code is for the UI
-////LCD uses:
-////5v
-////GND
-////20SDA
-////21SCL
-////**********************/
-////
-//// include the library code:
+///////*********************
+//////This code is for the UI
+//////LCD uses:
+//////5v
+//////GND
+//////20SDA
+//////21SCL
+//////**********************/
+//////
+////// include the library code:
 //#include <Wire.h>
 //#include <Adafruit_RGBLCDShield.h>
 //#include <utility/Adafruit_MCP23017.h>

@@ -1,3 +1,5 @@
+#include <Adafruit_RGBLCDShield.h>
+
 #include "LCD.h"
 #include "Screen.h"
 #include "Arduino.h"

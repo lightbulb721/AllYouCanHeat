@@ -140,13 +140,15 @@ void Manager::loop() {
     case 1:
       {
         double dt = .1;
-        double resistace = 4;
+        double resistace = 22;
         this->motor->setVoltage( 12 );
         this->heatPad->setVoltage( 12 );
         if ( this->readingsCount >= 10 ) {
           for (int i = 0; i <59; i++ ) {
             this->readings[i] = this->readings[ i + 1 ];
+            this->times[i] = this->times[i+1];
           }
+          this->times[59] = millis() / 1000;
           this->readings[59] = this->getTemp();
           this->readingsCount = 0;
           for ( int i = 0; i < 60; i++ ) {
@@ -155,7 +157,6 @@ void Manager::loop() {
           }
           Serial.print("\n");
           for ( int i = 0; i < 60; i++ ) {
-            this->times[i] = i;
             Serial.print( this->times[i] );
             Serial.print( " " );
           }
@@ -184,8 +185,7 @@ void Manager::loop() {
   this->loadcell->loop();
   this->thermistor[0].loop();
   this->thermistor[1].loop();
-  //output to serial
-  Serial.print( "State: " );
+  //output to serial  Serial.print( "State: " );
   Serial.print( this->state );
   Serial.print( " Heating Voltage: " );
   Serial.print( this->heatPad->getVoltage() );
